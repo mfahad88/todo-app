@@ -4,19 +4,22 @@ function MyModal(props){
     const [title,setTitle]=useState('');
     const [detail,setDetail]=useState('');
     const handleClick=()=>{
-        const requestOptions = {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ title: title,content:detail, is_visible:true })
-        };
-        fetch('http://localhost:8080/api/save',requestOptions)
-        .then((res)=>{
-           console.log( res.body);
-            return res.json()
-        }).then(data=>{
-            console.log(data)
-            props.window(true);
-        })
+        if(title.length==0 || detail.length==0){
+            alert('Empty fields not allowed');
+        }else{
+            const requestOptions = {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ title: title,content:detail, is_visible:true })
+            };
+            fetch('http://localhost:8080/api/save',requestOptions)
+            .then((res)=>{
+                return res.json()
+            }).then(data=>{
+                props.window(true);
+            })
+        }
+        
     }
     return(  
             <div className="modal fade" id="modelId" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
